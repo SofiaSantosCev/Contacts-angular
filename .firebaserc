@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "contacts-3452b": {
+      "hosting": {
+        "Contacts-angular": [
+          "contacts-3452b"
+        ]
+      }
+    }
+  }
+}

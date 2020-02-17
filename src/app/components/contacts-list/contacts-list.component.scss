@@ -1,0 +1,11 @@
+body {
+    height: 100vh;
+    background-color: #eee;
+
+    .list-group {
+        li:hover {
+            background-color: #ddd;
+        }
+    }
+}
+

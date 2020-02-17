@@ -1,0 +1,15 @@
+<body>
+    <div class="row" id="chat">
+        <ul>
+            <li *ngFor="let item of messages" >
+                {{item.text}}
+            </li>
+        </ul>
+    </div>
+    <div class="row" id="input">
+        <form [formGroup]="chatForm">
+            <input type="text" class="form-control" formControlName="message" placeholder="type your message here...">
+            <button type="submit" class="btn btn-primary" (click)="send()">send</button>
+        </form>
+    </div>
+</body>

@@ -1,0 +1,18 @@
+
+<body>
+    <div>
+        <div class="header">
+            <button class="btn btn-primary">Add Contact</button>
+        </div>
+        <ul class="list-group">
+            <li *ngFor="let item of contacts" class="cell list-group-item flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-1">{{item.name}} {{item.surname}}</p>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">Message</p>
+            </li>
+        </ul>
+    </div>
+</body>
+

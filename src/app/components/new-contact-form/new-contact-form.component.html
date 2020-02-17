@@ -1,0 +1,22 @@
+<div class="container" id="wrapper">
+    <button class="btn">quit</button>
+    <form [formGroup]="newContactForm">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" formControlName="name" id="name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <input type="text" formControlName="surname" id="surname" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" formControlName="email" id="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="mobile">Mobile number</label>
+            <input type="text" formControlName="mobile" id="mobile" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary" (click)="addContact()">save contact</button>
+    </form>
+</div>

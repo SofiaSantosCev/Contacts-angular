@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    height: 100vh;
+
+    .form-container {
+        width: 400px;
+        margin: auto;
+    }
+
+    #wrapper {
+        height: 100vh;
+
+        div {
+            position: relative;
+            p {
+                text-align: right;
+            }
+        }
+    }
+}
+
+header {
+    background: grey;
+    
+    h1 {
+        color: white;
+        margin: auto;
+    }
+}
+
+button {
+    background-color: pink;
+    color: white;
+}

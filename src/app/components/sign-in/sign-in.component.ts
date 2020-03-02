@@ -1,70 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from 'src/app/services/database.service';
-import { FormBuilder } from '@angular/forms';
-import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['./sign-in.component.scss', '../../main.scss']
 })
 export class SignInComponent implements OnInit {
 
-  signUpForm: any;
-  signInForm: any;
-  newUser: User;
-  active: boolean;
-  signInBool: boolean;
-  signUpBool: boolean;
+  email: string;
+  password: string;
+  error: string;
 
-  constructor(public db: DatabaseService, public formbuilder: FormBuilder, public authService: AuthService) { }
+  constructor(public authService: AuthService, public router: Router) { }
 
-  ngOnInit(): void {
-    this.signUpForm = this.formbuilder.group({
-      name: '',
-      email: '',
-      password: ''
-    });
-
-    this.signInForm = this.formbuilder.group({
-      name: '',
-      email: '',
-      password: ''
-    });
-
-    this.signInBool = true;
-    this.show();
-  }
-
-  signUp() {
-    this.db.addUser(this.signUpForm.value);
-  }
-
-  tryRegister(value) {
-    this.authService.doRegister(value)
-    .then(res => {
-      console.log(res);
-    }, err => {
-      console.log(err);
-    });
-  }
+  ngOnInit(): void {}
 
   signIn() {
-
+      this.authService.signIn(this.email, this.password);
   }
 
-  
-
-  show() {
-    if (this.active) {
-      this.active = false;
-      this.signUpBool = true;
-      this.signInBool = false;
-    } else {
-      this.active = true;
-      this.signInBool = true;
-      this.signUpBool = false;
-    }
+  signInWithFacebook() {
+    this.authService.signInWithFacebook()
+    .then((res) => { 
+        this.router.navigate(['/home'])
+      })
+    .catch((err) => console.log(err));
   }
-}
+} 

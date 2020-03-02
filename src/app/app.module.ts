@@ -18,7 +18,12 @@ import { ContactsListComponent } from './components/contacts-list/contacts-list.
 import { NewContactFormComponent } from './components/new-contact-form/new-contact-form.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { AuthService } from './services/auth.service';
+import { EditContactComponent } from './components/edit-contact/edit-contact.component';
+import * as firebase from 'firebase';
+import { AccountComponent } from './components/account/account.component';
+firebase.initializeApp(environment.firebase);
 
 @NgModule({
   declarations: [
@@ -28,19 +33,22 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ContactsListComponent,
     NewContactFormComponent,
     SignInComponent,
+    SignUpComponent,
+    EditContactComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
-    AngularFireAuthModule,
     ReactiveFormsModule,
     FormsModule,
     NgbModule
   ],
-  providers: [],
+  providers: [AuthService, AngularFireAuthModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

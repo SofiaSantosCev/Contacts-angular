@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
-import { FormBuilder } from '@angular/forms';
+import { ChatService } from 'src/app/services/chat.service';
+import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -8,20 +11,28 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  chat$: Observable<any>;
+  newMsg: string;
 
-  messages: any[];
-  chatForm: any;
+  constructor(
+    public cs: ChatService,
+    private route: ActivatedRoute,
+    public auth: AuthService,
+    public db: DatabaseService
+  ) {}
 
-  constructor(public db: DatabaseService, public formbuilder: FormBuilder) { }
-
-  ngOnInit(): void {
-    this.chatForm = this.formbuilder.group({
-      message: '',
-    });
+  ngOnInit() {
+    /*const chatId = this.route.snapshot.paramMap.get('id');
+    this.chat$ = this.cs.joinUsers(this.cs.get(chatId));*/
+  }
+/*
+  submit(chatId) {
+    //this.cs.sendMessage(chatId, this.newMsg);
+    //this.newMsg = '';
   }
 
-  send() {
-    this.db.sendMessage(this.chatForm.value);
+  trackByCreated(i, msg) {
+    return msg.createdAt;
   }
-
+*/
 }

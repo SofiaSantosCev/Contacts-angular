@@ -1,22 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { Contact } from 'src/app/interfaces/contact';
 import { DatabaseService } from 'src/app/services/database.service';
+import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'app-contacts-list',
   templateUrl: './contacts-list.component.html',
-  styleUrls: ['./contacts-list.component.scss']
+  styleUrls: ['./contacts-list.component.scss', '../../main.scss']
 })
 export class ContactsListComponent implements OnInit {
 
-  contacts: Contact[];
-  constructor(public db: DatabaseService) {
+	contacts: Contact[];
+	contact: any;
 
-   }
+	constructor(public db: DatabaseService) {}
+	
+	ngOnInit() {
+		this.db.getContacts().subscribe(data => {
+			this.contacts = data.map(e => {
+				return {
+					id: e.payload.doc.id,
+					...e.payload.doc.data() as Contact
+				};
+			})
+		});
+	}
 
-  ngOnInit(): void {
-    this.db.getContacts().subscribe(x => this.contacts = x);
-  }
+	edit(contact) {
+		this.contact = contact;
+	}
+	
+	delete(id: string) {
+		this.db.deleteContact(id);
+	}
 
 
 }

@@ -1,48 +1,26 @@
 
 <body>
-    <div class="row" id="wrapper">
-        <header class="container-fluid col-3">
-            <h1>CONTACTS</h1>
-        </header>
-        <div class="col-9">
-            <p *ngIf="signUpBool">already have an account? <a (click)="show()">Sign In</a></p>
-            <p *ngIf="signInBool">you don't have an account? <a (click)="show()">Sign Up</a></p>
-            <div class="container form-container" *ngIf="signUpBool">
-                <h2>Sign Up</h2>
-                <div>
-                    <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" formControlName="name" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" formControlName="email" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" formControlName="password" class="form-control"/>
-                        </div>
-                        <button type="submit" class="btn" routerLink="/home">Sign Up</button>
-                    </form>
-                </div>
+    <div class="container" id="box">
+
+        <div class="container form-container" id="form">
+            <h2>Sign In</h2>
+            <div>
+                <form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" [(ngModel)]="email" name="email" class="form-control" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" [(ngModel)]="password" name="password" class="form-control" required/>
+                    </div>
+                    <button type="submit" (click)="signIn()" class="btn btn-primary">Sign In</button>
+                    <button type="submit" (click)="authService.GoogleAuth()" class="btn btn-primary">Sign In</button>
+                    <p>You don't have an account? <a routerLink="/signUp">Sign Up</a></p>
+                    <p style="color:red">{{error}}</p>
+                </form>
             </div>
-            <div class="container form-container" *ngIf="signInBool">
-                <h2>Sign In</h2>
-                <div>
-                    <form [formGroup]="signInForm" (ngSubmit)="signIn()">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="emailSignIn" formControlName="email" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="passwordSignIn" formControlName="password" class="form-control"/>
-                        </div>
-                        <button type="submit" (click)="tryRegister(signInForm.value)" class="btn" routerLink="/home">Sign In</button>
-                    </form>
-                </div>
-            </div>
+            
         </div>
     </div>
 </body>

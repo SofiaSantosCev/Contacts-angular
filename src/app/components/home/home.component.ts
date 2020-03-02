@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss', '../../main.scss']
 })
 export class HomeComponent implements OnInit {
 
-  active: boolean;
-  constructor() { }
-
+  constructor(public authService: AuthService) {}
+  
   ngOnInit(): void {
-    this.active = true;
   }
 
-  changeActive() {
-    if (this.active) {
-      this.active = false;
-    } else {
-      this.active = true;
-    }
+  signOut() {
+    this.authService.signOut();
   }
+
+
+
 
 }

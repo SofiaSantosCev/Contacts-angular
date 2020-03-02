@@ -1,8 +1,22 @@
 #chat {
-    background-color: #aaffaa;
-    height: 70vh;
+    height: 80vh;
+    background-color: rgb(234, 240, 209);
 }
 
 #input {
+    background-color: #eee;
+    padding: 10px;
     
+    input {
+        width: 75vh;
+        margin-right: 10px;
+        padding: 10px;
+    }
+
+    button {
+        border-radius: 50px;
+        img {
+            width: 17px;
+        }
+    }
 }

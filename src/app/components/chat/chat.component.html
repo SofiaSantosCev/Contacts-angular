@@ -1,15 +1,25 @@
 <body>
-    <div class="row" id="chat">
-        <ul>
-            <li *ngFor="let item of messages" >
-                {{item.text}}
-            </li>
-        </ul>
-    </div>
-    <div class="row" id="input">
-        <form [formGroup]="chatForm">
-            <input type="text" class="form-control" formControlName="message" placeholder="type your message here...">
-            <button type="submit" class="btn btn-primary" (click)="send()">send</button>
-        </form>
-    </div>
+    <ng-container *ngIf="chat$ as chat">
+
+        <div class="top">
+            <p>
+                
+            </p>
+        </div>
+        <div class="chat">
+            <div class="msg" *ngFor="let msg of chat.messages;">
+            <div class="user">
+                <img [src]="msg.user?.photoURL">
+                <div><span>{{ msg.user?.displayName }}</span></div>
+            </div>
+            <p>{{ msg.content }}</p>
+            </div>
+        </div>
+    
+        <div class="form">
+            <input [(ngModel)]="newMsg">
+            <button >Send</button>
+        </div>
+    
+    </ng-container>
 </body>

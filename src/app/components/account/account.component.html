@@ -1,0 +1,21 @@
+<body>
+    <div class="container" id="box">
+        <nav class="navbar navbar-lg">
+            <button routerLink="/home" class="btn"><img src="../../../assets/back.svg" alt="back"></button>
+        </nav>
+        <div class="container" id="content" *ngIf="authService.userData as user">
+            <h4>Your account</h4>
+            <label>Name:</label>
+            <p>{{user.name}}</p>
+
+            <label for="surname">Email</label>
+            <p>{{user.email}}</p>
+
+            
+            <form action="">
+
+            </form>
+        </div>
+
+    </div>
+</body>

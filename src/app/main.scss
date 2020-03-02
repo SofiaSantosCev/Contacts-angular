@@ -1,0 +1,26 @@
+body {
+    background-color: rgb(26, 148, 128);
+    padding: 20px;
+    min-height: 100vh;
+    
+    #box {
+        margin: auto;
+        background-color: #fff;
+        padding: 0;
+        min-height: 70vh;
+    
+        nav {
+            background-color: #eee;
+        }
+    
+        #content {
+            width: 70%;
+            padding: 20px;
+            
+        }
+
+        img {
+            width: 25px;
+        }
+    }
+}

@@ -1,18 +1,41 @@
 
 <body>
-    <div>
-        <div class="header">
-            <button class="btn btn-primary">Add Contact</button>
-        </div>
-        <ul class="list-group">
-            <li *ngFor="let item of contacts" class="cell list-group-item flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <p class="mb-1">{{item.name}} {{item.surname}}</p>
-                    <small>date</small>
-                </div>
-                <p class="mb-1">Message</p>
-            </li>
-        </ul>
-    </div>
+	<div class="container" id="box">
+		<nav class="navbar navbar-expand-lg">
+			<button routerLink="/home" class="btn"><img src="../../../assets/back.svg" alt="back"></button>
+			<button routerLink="/new-contact" class="btn btn-warning">Add Contact</button>
+		</nav>
+		<div class="container" id="content">
+			<div >
+				<table class="table table-borderless">
+					<thead>
+					  <tr>
+						<th scope="col"></th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					  </tr>
+					</thead>
+					<tbody *ngFor="let item of contacts" id="accordion">
+					  <tr>
+						  <td><img src="../../../assets/user.svg"></td>
+						<td>
+							<h4>{{item.name}} {{item.surname}}</h4>
+							<p>{{item.email}}</p>
+							<p>{{item.number}}</p>
+						</td>
+						<td><button class="btn"><img src="../../../assets/chat.svg" alt="chat"></button></td>
+						<td><button class="btn"><img src="../../../assets/email.svg" alt="email"></button></td>
+						<td><button class="btn" (click)="edit(item)" routerLink="/edit-contact"><img src="../../../assets/edit.svg" alt="edit"></button></td>
+						<td><button class="btn" (click)="delete(item.id)"><img src="../../../assets/delete.svg" alt="delete"></button></td>
+					  </tr>
+					</tbody>
+				  </table>
+			</div>
+		</div>
+	</div>
 </body>
+
 

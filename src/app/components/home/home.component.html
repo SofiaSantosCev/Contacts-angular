@@ -1,22 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 <body>
-    <div>
-        <div class="row">
-            <div class="col-2">
-                <app-contacts-list></app-contacts-list>
-            </div>
-            <div class="col-10">
-                <app-chat></app-chat>
-                <app-new-contact-form *ngIf="active"></app-new-contact-form>
-            </div>
-        </div>
-    </div>
-    
+	<div class="container" id="box" *ngIf="authService.userData as user">
+		<nav class="navbar navbar-expand-lg">
+			<div>
+				<p>{{user.email}}</p>
+			</div>
+			<button type="button" class="btn" routerLink="/contacts"><img src="../../../assets/user.svg" style="width: 20px;" alt=""></button>
+			<div class="btn-group">
+				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="false"
+				aria-expanded="false"><img src="../../../assets/menu.svg" alt="">
+				</button>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" routerLink="/account">Account</a>
+					<a class="dropdown-item" (click)="signOut()">Sign Out</a>
+				</div>
+			</div>
+		</nav>
+		<div class="container" id="content">
+			<app-chat></app-chat>
+		</div>
+	</div> 
 </body>
-</html>

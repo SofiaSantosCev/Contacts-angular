@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { Contact } from '../../models/contact.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-contacts-list',
@@ -12,10 +13,10 @@ export class ContactsListComponent implements OnInit {
 	contacts: Contact[];
 	contact: any;
 
-	constructor(public db: DatabaseService) {}
+	constructor(public db: DatabaseService, public authService: AuthService) {}
 	
 	ngOnInit() {
-		this.db.getContacts().subscribe(data => {
+		this.db.getContacts(this.authService.userData.uid).subscribe(data => {
 			this.contacts = data.map(e => {
 				return {
 					id: e.payload.doc.id,

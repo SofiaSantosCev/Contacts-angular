@@ -4,17 +4,21 @@
             <button routerLink="/home" class="btn"><img src="../../../assets/back.svg" alt="back"></button>
         </nav>
         <div class="container" id="content" *ngIf="authService.userData as user">
-            <h4>Your account</h4>
-            <label>Name:</label>
-            <p>{{user.name}}</p>
-
-            <label for="surname">Email</label>
-            <p>{{user.email}}</p>
-
-            
-            <form action="">
-
-            </form>
+            <div>
+                <h4>Profile</h4>
+                <div>
+                    <img src="" alt="">
+                    <p>{{user.name}} {{user.surname}}</p>
+                    <p>{{user.email}}</p>
+                    <p>{{user.mobile}}</p>
+                </div>
+            </div>
+            <div>
+                <h4>Your account</h4>
+    
+                <label for="email">Email</label>
+                <p>{{user.email}}</p>
+            </div>
         </div>
 
     </div>

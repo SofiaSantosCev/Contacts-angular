@@ -4,4 +4,5 @@ export class Contact {
     surname?: string;
     email: string;
     mobile?: string;
+    uid: string;
 }

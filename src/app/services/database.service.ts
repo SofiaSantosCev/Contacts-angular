@@ -9,16 +9,26 @@ import { Contact } from '../models/contact.model';
 })
 export class DatabaseService {
 
-  contactsCollection: AngularFirestoreCollection<Contact>
+  contactsCollection: AngularFirestoreCollection<Contact>;
+
   constructor(public firestore: AngularFirestore, public firebase: FirebaseApp) {}
 
   // CONTACT
-  getContacts() {
-    return this.firestore.collection('contacts').snapshotChanges();
+  // get contacts created by the user logged.
+  getContacts(uid: string) {
+    return this.firestore.collection('contacts', ref => ref.where('uid', '==', uid)).snapshotChanges();
   }
 
-  createContact(contact: Contact) {
-    this.firestore.collection('contacts').add(contact)
+  createContact(contact: Contact, uid) {
+    var contactData = {
+      name: contact.name,
+      surname: contact.surname,
+      email: contact.email,
+      mobile: contact.mobile,
+      uid: uid,
+    }
+
+    this.firestore.collection('contacts').add(contactData)
       .then(() => console.log('Contact created'))
       .catch((error) => console.log(error)
     );
@@ -26,7 +36,7 @@ export class DatabaseService {
 
   updateContact(contact: Contact, id) {
     this.firestore.collection('contacts').doc(id).update(contact).then(() => {
-      console.log('Contact updated')
+      console.log('Contact updated');
     }).catch((error) => { 
       console.log(error)
     });

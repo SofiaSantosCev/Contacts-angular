@@ -14,8 +14,7 @@ export class NewContactFormComponent implements OnInit {
 	
 	newContactForm: any;
 
-	constructor(public db: DatabaseService, private formbuilder: FormBuilder, private authService: AuthService) { 
-	}
+	constructor(public db: DatabaseService, private formbuilder: FormBuilder, private authService: AuthService) {}
 	
 	ngOnInit() {
 		this.newContactForm = this.formbuilder.group({
@@ -23,12 +22,11 @@ export class NewContactFormComponent implements OnInit {
 			surname: '',
 			email: '',
 			mobile: '',
-			uid: localStorage.getItem('user')
 		});	
 	}
 
 	createContact() {
-		this.db.createContact(this.newContactForm.value as Contact);
+		this.db.createContact(this.newContactForm.value as Contact, this.authService.userData.uid);
 	}
 
 }

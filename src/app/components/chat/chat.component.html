@@ -1,25 +1,52 @@
-<body>
-    <ng-container *ngIf="chat$ as chat">
 
-        <div class="top">
-            <p>
-                
-            </p>
+<div class="row" id="main">
+    <div class="col-3" id="chats-list" >
+        <div class="list-group" *ngFor="let item of chats">
+            <a (click)="selectChat(item.id)" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-1">{{item.contactid}}</p>
+                    <small>3 days ago</small>
+                </div>
+                <p class="mb-1">message</p>
+            </a>
         </div>
-        <div class="chat">
-            <div class="msg" *ngFor="let msg of chat.messages;">
-            <div class="user">
-                <img [src]="msg.user?.photoURL">
-                <div><span>{{ msg.user?.displayName }}</span></div>
+        
+    </div>
+    <div class="col-9" id="chat-messages">
+        <div class="row-10" style="height: 60vh;">
+            <nav class="nav">
+                <h5>{{selectedContactName}}</h5>
+                <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="false"
+                    aria-expanded="false"><img src="../../../assets/menu.svg" alt="">
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="deleteChat()">Delete chat</a>
+                        <a class="dropdown-item" (click)="deleteMessages()">Delete messages</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="container" style="height: 90%;">
+                <ul style="list-style: none;" *ngFor="let item of messages">
+                    <li>
+                        <div id="messagebox" >
+                            <p>{{item.message}}</p>
+                            <p id="date">{{item.date}}</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <p>{{ msg.content }}</p>
-            </div>
         </div>
-    
-        <div class="form">
-            <input [(ngModel)]="newMsg">
-            <button >Send</button>
+        <div class="row-2" id="formdiv">
+            <form class="form-inline">
+                <div class="input-group" >
+                    <input type="text" class="form-control" placeholder="Type your message here..."  aria-describedby="basic-addon2" [(ngModel)]="messageInput" name=messageInput>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button" (click)="sendMessage()">Send</button>
+                    </div>
+                  </div>
+            </form>
         </div>
-    
-    </ng-container>
-</body>
+    </div>
+</div>
+

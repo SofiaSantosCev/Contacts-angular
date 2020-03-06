@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { Contact } from 'src/app/models/contact.model';
 import { FormBuilder } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
 	selector: 'app-new-contact-form',
@@ -14,7 +13,7 @@ export class NewContactFormComponent implements OnInit {
 	
 	newContactForm: any;
 
-	constructor(public db: DatabaseService, private formbuilder: FormBuilder, private authService: AuthService) {}
+	constructor(public db: DatabaseService, private formbuilder: FormBuilder) {}
 	
 	ngOnInit() {
 		this.newContactForm = this.formbuilder.group({
@@ -26,7 +25,7 @@ export class NewContactFormComponent implements OnInit {
 	}
 
 	createContact() {
-		this.db.createContact(this.newContactForm.value as Contact, this.authService.userData.uid);
+		this.db.createContact(this.newContactForm.value as Contact);
 	}
 
 }

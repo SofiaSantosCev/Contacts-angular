@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { FormBuilder } from '@angular/forms';
-import { Contact } from 'src/app/models/contact.model';
-import { ContactsListComponent } from '../contacts-list/contacts-list.component';
 
 @Component({
   selector: 'app-edit-contact',
@@ -11,13 +9,11 @@ import { ContactsListComponent } from '../contacts-list/contacts-list.component'
 })
 export class EditContactComponent implements OnInit {
 
-  editContactForm: any;
+  editContactForm;
+  contactId: string;
   contact: any;
-  listComponent: ContactsListComponent;
 
-  constructor(private db: DatabaseService, private formbuilder: FormBuilder) { 
-    this.contact = this.listComponent.contact;
-  }
+  constructor(private db: DatabaseService, private formbuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.editContactForm = this.formbuilder.group({
@@ -27,11 +23,20 @@ export class EditContactComponent implements OnInit {
       mobile: ''
     });
 
-    console.log("contact: " + this.listComponent.contact);
+    this.contactId = localStorage.getItem('contactSelectedId');
+    //this.getContact();
+    console.log('contactId: ' + this.contactId);
+  }
+
+  getContact() {
+  }
+
+  setValue() {
+
   }
 
   edit() {
-		return this.db.updateContact(this.editContactForm.value, this.listComponent.contact.id);
+		this.db.updateContact(this.editContactForm.value, this.contactId);
 	}
 
 }

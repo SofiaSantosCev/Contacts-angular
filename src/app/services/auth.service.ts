@@ -2,7 +2,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from "@angular/fire/auth";
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs';
 
 import { auth } from 'firebase/app';
 
@@ -28,6 +27,10 @@ export class AuthService {
 			  JSON.parse(localStorage.getItem('user'));
 			}
 		  })
+	}
+
+	getUser() {
+		return this.userData['uid'];
 	}
 
 	signInWithGoogle() {
@@ -62,7 +65,6 @@ export class AuthService {
 	signIn(email: string, password: string) {
 		this.afAuth.signInWithEmailAndPassword(email, password)
 		.then(value =>{
-			console.log(value);
 			this.userData = value.user;
 			console.log('Successfully signed in!');
 			this.router.navigate(['/home']);

@@ -6,7 +6,9 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { DatePipe } from '@angular/common'
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -43,12 +45,13 @@ firebase.initializeApp(environment.firebase);
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireAnalyticsModule,
+    AngularFireDatabaseModule,
     AngularFirestoreModule,
     ReactiveFormsModule,
     FormsModule,
     NgbModule
   ],
-  providers: [AuthService, AngularFireAuthModule],
+  providers: [AuthService, AngularFireAuthModule, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

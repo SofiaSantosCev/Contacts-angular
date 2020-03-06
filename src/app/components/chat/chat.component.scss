@@ -1,22 +1,40 @@
-#chat {
-    height: 80vh;
-    background-color: rgb(234, 240, 209);
-}
+#main {
+    height: 60vh;
+    padding: 0;
+    margin: 0;
 
-#input {
-    background-color: #eee;
-    padding: 10px;
+    nav {
+        background: rgb(223, 221, 221);
+        padding: 10px 20px;
+        
+    }
     
-    input {
-        width: 75vh;
-        margin-right: 10px;
-        padding: 10px;
+    #chats-list {
+        padding: 0;
     }
 
-    button {
-        border-radius: 50px;
-        img {
-            width: 17px;
+    #chat-messages {
+        padding: 0;
+
+        #messagebox {
+            min-width: 100px;
+            max-width: 300px;
+            min-height: 50px;
+            background-color: #eee;
+            padding: 10px;
+
+            #date {
+                font-size: 10px;
+                color: #aaa;
+            }
+        }
+
+        #formdiv {
+            padding: 10px;
+            background-color: #eee;
+        }
+        input {
+            width: 65vh;
         }
     }
 }

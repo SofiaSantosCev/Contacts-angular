@@ -6,7 +6,13 @@
     nav {
         background: rgb(223, 221, 221);
         padding: 10px 20px;
-        
+        position: relative;
+        height: 50px;
+         #menu-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+         }
     }
     
     #chats-list {
@@ -14,27 +20,40 @@
     }
 
     #chat-messages {
+        position: relative;
         padding: 0;
+        height: 100%;
+        background-color: grey;
 
         #messagebox {
             min-width: 100px;
             max-width: 300px;
-            min-height: 50px;
+            min-height: 25px;
+            border-radius: 8px;
             background-color: #eee;
             padding: 10px;
+            position: relative;
 
             #date {
+                position: absolute;
+                top: 5px;
+                right: 5px;
                 font-size: 10px;
                 color: #aaa;
             }
         }
 
         #formdiv {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
             padding: 10px;
             background-color: #eee;
-        }
-        input {
-            width: 65vh;
+            overflow: hidden;
+            input {
+                width: 100%;
+            }
         }
     }
 }

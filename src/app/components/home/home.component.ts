@@ -12,10 +12,12 @@ export class HomeComponent implements OnInit {
 
 	constructor(public authService: AuthService, public db: DatabaseService) {
 		
-		this.checkIfUsercontactExists();
 	}
 	
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.checkIfUsercontactExists();
+
+	}
 
 	signOut() {
 		this.authService.signOut();

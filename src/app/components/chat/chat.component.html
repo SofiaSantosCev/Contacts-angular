@@ -13,12 +13,12 @@
         
     </div>
     <div class="col-9" id="chat-messages">
-        <div class="row-10" style="height: 60vh;">
+        <div class="row-10">
             <nav class="nav">
                 <h5>{{selectedContactName}}</h5>
-                <div class="btn-group">
+                <div class="btn-group" id="menu-btn">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="false"
-                    aria-expanded="false"><img src="../../../assets/menu.svg" alt="">
+                    aria-expanded="false">
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="deleteChat()">Delete chat</a>

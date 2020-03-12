@@ -3,6 +3,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { AuthService } from 'src/app/services/auth.service';
 import * as firebase from 'firebase';
 import { DatePipe } from '@angular/common';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-chat',
@@ -36,55 +37,38 @@ export class ChatComponent implements OnInit {
 						id: e.id,
 						...e.data()
 					});
-					console.log(this.chats);
 				})
 			}
 			
 		}).catch(err => console.log(err));
 	}
-
-	getContactName(contactid: string ) {
-		this.db.getContactName(contactid)
-		.then(doc => (doc.exists) ? 
-					this.selectedContactName = doc.data().name : 
-					console.log('doc.doesnt exist'))
-		.catch(err => console.log(err));
-	}	
 	
-	getContactInfo(contactid: string) {
-		firebase.firestore().collection('contacts').doc(contactid).get().then(doc => {
-			if (doc.exists) {
-				doc.data().name;
-			} else {
-				console.log('no such document');
-			}
-		}).catch (error => {
-			console.log('error getting document: ' + error);
+	getContactName(email: string) {
+		this.db.getContactName(email).then(doc => {
+			this.selectedContactName = doc.data().name;
 		})
 	}
 
-	// WORKS
 	sendMessage() {
-		this.db.sendMessage(this.selectedChatID, this.messageInput)
-		.then(() => console.log('message sent'))
-		.catch(err => console.log(err));
-
+		if(this.messageInput != ''){
+			this.db.sendMessage(this.selectedChatID, this.messageInput)
+			.then(() => console.log('message sent'))
+			.catch(err => console.log(err));
+		}
 		this.messageInput = '';
 	}
 
-	// WORKS
 	getMessages(chatid: string) {
-		this.db.getMessages(chatid).subscribe(data => {
-			this.messages = data.map(e => {
-				console.log(e.payload.doc.data());
+		this.db.getMessages(chatid).onSnapshot((onSnapshot) => {
+			this.messages = onSnapshot.docs.map(e => {
 				return {
-					id: e.payload.doc.id,
-					timestamp: this.convertDate(e.payload.doc.data().timestamp),
-					uid: e.payload.doc.data().uid,
-					message: e.payload.doc.data().message
+					id: e.id,
+					timestamp: this.convertDate(e.data().timestamp),
+					uid: e.data().uid,
+					message: e.data().message
 				}
 			})
-		})
+		});
 	}
 
 	// transforms the date.now string into the chosen format
@@ -97,8 +81,16 @@ export class ChatComponent implements OnInit {
 		this.selectedChatID = chatID;
 		this.getMessages(chatID);
 		
+		// set chat name to the contact's name the user is talking to
 		this.db.getChatById(chatID).then((doc) => {
 			if(doc.exists) {
+				let members = doc.data().members;
+				for (let i = 0; i < members.length; i++) {
+					if (members[i] != firebase.auth().currentUser.email) {
+						this.getContactName(members[i]);
+						
+					}
+				}
 			} else {
 				console.log('chat doesnt exist');
 			}

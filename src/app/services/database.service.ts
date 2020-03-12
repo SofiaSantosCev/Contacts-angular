@@ -58,9 +58,8 @@ export class DatabaseService {
 	}
 
 	getUserContact() {
-		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).get();
+		return firebase.firestore().collection('contacts').doc(this.authService.userData.email).get();
 	}
-
 
 	// Add the id of the user's contact this should happen in the login process.
 	getUserContactId(email: string) {
@@ -102,14 +101,9 @@ export class DatabaseService {
 			console.log(err);
 		});		
 	}
-	
-	//Get a specific contact 
-	getContactInfo(contactid: string) {
-		return firebase.firestore().collection('contacts').doc(contactid).get();
-	}
 
 	getContactName(contactid: string) {
-		return firebase.firestore().collection('contacts').doc(contactid).get();
+		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).collection('uid').doc(contactid).get();
 	}
 
 	doesContactExistByEmail(email: string){
@@ -121,7 +115,6 @@ export class DatabaseService {
 		firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).collection('uid').doc(id).set({
 			name: newcontactinfo.name,
 			surname: newcontactinfo.surname,
-			email: newcontactinfo.email
 		}).then(() => console.log('Contact updated'))
 		.catch((error) => console.log(error));
 	}
@@ -132,10 +125,14 @@ export class DatabaseService {
 		
 	}
 
-	// CHATS
+	// CHATS *******************************
 
 	getUsersChats() {
 		return firebase.firestore().collection('chats/').where('members', 'array-contains',this.authService.userData.email).where('archived','==', false).get();
+	}
+
+	getChatById(chatid: string) {
+		return firebase.firestore().collection('chats').doc(chatid).get();
 	}
 
 	// Creates a new chat with the user and the contact as members
@@ -150,15 +147,13 @@ export class DatabaseService {
 		
 	}
 
-	getChatById(chatid: string) {
-		return firebase.firestore().collection('chats').doc(chatid).get();
-	}
-
-// MESSAGES
+	// MESSAGES *********************************
+	 // Gets all messages from a chat
 	getMessages(chatid: string) {
-		return this.firestore.collection('chats').doc(chatid).collection('messages').snapshotChanges();
+		return firebase.firestore().collection('chats').doc(chatid).collection('messages').orderBy('timestamp','asc');
 	}
 
+	// Sends a message
 	sendMessage(chatid: string, message: string) {
 		return firebase.firestore().collection('chats').doc(chatid).collection('messages')
 		.add({

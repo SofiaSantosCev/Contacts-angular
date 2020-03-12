@@ -1,96 +1,152 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import 'firebase/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Contact } from '../models/contact.model';
 import { AuthService } from './auth.service';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { Router } from '@angular/router';
 import * as firebase from 'firebase';
-import { identifierModuleUrl } from '@angular/compiler';
+import 'firebase/firestore';
+
 
 @Injectable({
 providedIn: 'root'
 })
 export class DatabaseService {
 
-	contactsCollection: AngularFirestoreCollection<Contact>;
+	userEmail: string;
+	userContactId: string;
 
-	constructor(public firestore: AngularFirestore, public authService: AuthService, public db: AngularFireDatabase) {
-		
+	constructor(
+		public firestore: AngularFirestore, 
+		public authService: AuthService,
+		public router: Router,
+	) {}
+
+	signUp(email: string, password: string) {
+		this.authService.signUp(email, password);
+		this.setDefaultPhotoToUser();
+	}
+
+	setDefaultPhotoToUser() {
+		firebase.auth().currentUser.updateProfile({
+			photoURL: '../../../assets/default.jpg',
+		}).then(() => console.log("user default photo assigned"))
+		.catch(err => console.log(err));
+	}
+
+	updateProfile(contactinfo: any){
+		firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).update(contactinfo)
+		.then(()=> console.log('profile updated'))
+		.catch(err => console.log(err));
+	}
+
+	createUserContact(user: firebase.User) {
+		firebase.firestore().collection('contacts').doc(user.email).set({
+			name: user.displayName,
+			email: user.email,
+			photo: user.photoURL
+		}).then(() => {
+			console.log('contact created');
+		}).catch(err => console.log(err));
+	}
+
+
+	signIn(email: string, password: string) {
+		this.authService.signIn(email, password);
+		// get user contact id
+		this.getUserContactId(email);
+
+	}
+
+	getUserContact() {
+		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).get();
+	}
+
+
+	// Add the id of the user's contact this should happen in the login process.
+	getUserContactId(email: string) {
+		firebase.firestore().collection('contacts').doc(email).get().then(function(doc) {
+			if (doc.exists) {
+				localStorage.setItem('usercontactid', doc.id);
+				console.log('contact id saved: ' + doc.id);
+			} else {
+				console.log('No contact created for this user');
+			}
+		})
 	}
 
 	// CONTACTS
 
-	// get contacts created by the user logged.
-	getContacts() {
-		return this.firestore.collection('contacts', ref => ref.where('uid', '==', this.authService.getUser())).snapshotChanges();
+	getSavedContacts() {
+		return this.firestore.collection('contacts').doc(localStorage.getItem('usercontactid')).collection('uid').snapshotChanges();
 	}
 
-	createContact(contact: Contact) {
+	// Adds the contact found by email 
+	addContact(contact: Contact) {
 		var contactData = {
 			name: contact.name,
 			surname: contact.surname,
 			email: contact.email,
 			mobile: contact.mobile,
-			uid: this.authService.getUser(),
 		}
 
-		this.firestore.collection('contacts').add(contactData)
-			.then(() => console.log('Contact created'))
-			.catch((error) => console.log(error)
-		);
+		firebase.firestore().collection('contacts').doc(contact.email).get().then(doc => {
+			if(doc.exists) {
+				firebase.firestore().collection('contacts').doc(localStorage.getItem('usercontactid'))
+				.collection('uid').doc(contact.email).set(contactData)
+				.then(() => this.router.navigate(['/contacts']))
+				.catch(error => console.log(error));
+			} else {
+				console.log('contact doesnt exist');
+			}
+		}).catch(err => {
+			console.log(err);
+		});		
 	}
-
-	updateContact(contact: Contact, id: string) {
-		this.contactsCollection.doc(id).update(contact).then(() => {
-			console.log('Contact updated');
-		}).catch((error) => { 
-			console.log(error)
-		});
-	}
-
-	deleteContact(id: string) {
-		this.contactsCollection.doc(id).delete();
-	}
-
-	// CHATS
-
-	getChats() {
-		return this.firestore.collection('chats', ref => ref.where('uid', '==', this.authService.getUser())).snapshotChanges();
-	}
-
+	
+	//Get a specific contact 
 	getContactInfo(contactid: string) {
 		return firebase.firestore().collection('contacts').doc(contactid).get();
 	}
 
-	createNewChat(contactid: string) {
-		var chatInfo = {
-			uid: this.authService.getUser(),
-			contactid: contactid,
-		}
-
-		if (this.checkIfChatExists(contactid)){
-			console.log('a chat with this contact already exist');
-		} else {
-			firebase.firestore().collection('chats').add(chatInfo)
-			.then(() => {
-				console.log('new chat created')
-			}).catch(err => {
-				console.log(err);
-			});
-		}
+	getContactName(contactid: string) {
+		return firebase.firestore().collection('contacts').doc(contactid).get();
 	}
 
-	async checkIfChatExists(contactid: string) {
-		const doc = await this.getChatByIdContact(contactid);
-		if (doc.empty) {
-			return true;
-		} else {
-			return false;
-		}
+	doesContactExistByEmail(email: string){
+		firebase.firestore().collection('contacts').doc(email).get().then(doc => { return doc.exists });
+	};
+
+	// Updates some or all the fields of a contact
+	updateContact(newcontactinfo: Contact, id: string) {
+		firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).collection('uid').doc(id).set({
+			name: newcontactinfo.name,
+			surname: newcontactinfo.surname,
+			email: newcontactinfo.email
+		}).then(() => console.log('Contact updated'))
+		.catch((error) => console.log(error));
 	}
 
-	async getChatByIdContact(contactid: string) {
-		return firebase.firestore().collection('chats').where('contactid', '==', contactid).get();
+	// Removes the contact from database
+	deleteContact(id: string) {
+		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.uid).collection('uid').doc(id).delete();
+		
+	}
+
+	// CHATS
+
+	getUsersChats() {
+		return firebase.firestore().collection('chats/').where('members', 'array-contains',this.authService.userData.email).where('archived','==', false).get();
+	}
+
+	// Creates a new chat with the user and the contact as members
+	createOneToOneChat(contacts: string[]) {
+		contacts.forEach(item => {
+			var memberInfo = {
+				email: item
+			}
+
+			firebase.firestore().collection('chats').doc(contacts[0]+contacts[1]).collection('members').doc(item).set(memberInfo);
+		})
 		
 	}
 
@@ -101,5 +157,14 @@ export class DatabaseService {
 // MESSAGES
 	getMessages(chatid: string) {
 		return this.firestore.collection('chats').doc(chatid).collection('messages').snapshotChanges();
+	}
+
+	sendMessage(chatid: string, message: string) {
+		return firebase.firestore().collection('chats').doc(chatid).collection('messages')
+		.add({
+			message: message,
+			uid: localStorage.getItem('usercontactid'),
+			timestamp: Date.now()
+		});
 	}
 }

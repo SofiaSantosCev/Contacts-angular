@@ -16,7 +16,9 @@ export class ContactsListComponent implements OnInit {
 	constructor(public db: DatabaseService, public authService: AuthService) {}
 	
 	ngOnInit() {
-		this.db.getContacts().subscribe(data => {
+		
+		this.db.getSavedContacts().subscribe(data => {
+			
 			this.contacts = data.map(e => {
 				return {
 					id: e.payload.doc.id,
@@ -25,20 +27,18 @@ export class ContactsListComponent implements OnInit {
 				};
 			})
 		});
-		
 		localStorage.removeItem('contactSelectedId');
 	}
 
 	getContactName(contactid: string ) {
-		firebase.firestore().collection('contacts').doc(contactid).get().then((doc) => {
+		this.db.getContactName(contactid)
+		.then((doc) => {
 			if (doc.exists) {
 				return doc.data().name;
 			} else {
 				return 'no such document';
 			}
-		}).catch((error) => {
-			return 'error getting document: ' + error;
-		});
+		}).catch(err => console.log(err));
 	}
 
 	selectItem(id: string) {
@@ -46,11 +46,15 @@ export class ContactsListComponent implements OnInit {
 	}
 	
 	delete(id: string) {
-		this.db.deleteContact(id);
+		this.db.deleteContact(id)
+		.then(() => console.log('contact deleted'))
+		.catch(err => console.log(err));
 	}
 
 	newChat(id: string) {
-		this.db.createNewChat(id);
+		var members = [];
+		members.push(id, firebase.auth().currentUser.email);
+		this.db.createOneToOneChat(members);
 	}
 
 

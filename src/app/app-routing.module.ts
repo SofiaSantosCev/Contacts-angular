@@ -8,7 +8,7 @@ import { ContactsListComponent } from './components/contacts-list/contacts-list.
 import { NewContactFormComponent } from './components/new-contact-form/new-contact-form.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
 import { AccountComponent } from './components/account/account.component';
-
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: '', component: SignInComponent, pathMatch: 'full' },
@@ -19,7 +19,9 @@ const routes: Routes = [
   { path: 'contacts', component: ContactsListComponent },
   { path: 'new-contact', component: NewContactFormComponent },
   { path: 'edit-contact', component: EditContactComponent },
-  { path: 'account', component: AccountComponent }
+  { path: 'account', component: AccountComponent },
+  { path: 'edit-profile', component: EditProfileComponent },
+  
 ];
 
 @NgModule({

@@ -3,21 +3,31 @@
         <nav class="navbar navbar-lg">
             <button routerLink="/home" class="btn"><img src="../../../assets/back.svg" alt="back"></button>
         </nav>
-        <div class="container" id="content" *ngIf="authService.userData as user">
+        <div class="container" id="content">
             <div>
-                <h4>Profile</h4>
+                <div class="row">
+                    <div class="col-2">
+                        <h4>Profile</h4>
+                    </div>
+                    <div class="col-2">
+                        <button routerLink="/edit-profile" class="btn btn-success">Edit profile</button>
+                    </div>
+                </div>
                 <div>
-                    <img src="" alt="">
-                    <p>{{user.name}} {{user.surname}}</p>
-                    <p>{{user.email}}</p>
-                    <p>{{user.mobile}}</p>
+                    <img id="profile-photo" style="width: 40px;" src="../../../assets/default.jpg" alt="profilephoto">
+                    <div >
+                        <small for="name">Name:</small>
+                        <p *ngIf="usercontact.name != null && usercontact.surname != null">{{usercontact.name}} {{usercontact.surname}}</p>
+                        <p *ngIf="usercontact.name == null && usercontact.surname == null">No name assigned yet</p>
+                    </div>
                 </div>
             </div>
             <div>
                 <h4>Your account</h4>
     
-                <label for="email">Email</label>
+                <small for="email">Email:</small>
                 <p>{{user.email}}</p>
+                <button class="btn btn-danger" (click)="deleteAccount()">Delete account</button>
             </div>
         </div>
 

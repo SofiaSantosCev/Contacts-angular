@@ -25,6 +25,7 @@ import { AuthService } from './services/auth.service';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
 import * as firebase from 'firebase';
 import { AccountComponent } from './components/account/account.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 firebase.initializeApp(environment.firebase);
 
 @NgModule({
@@ -38,6 +39,7 @@ firebase.initializeApp(environment.firebase);
     SignUpComponent,
     EditContactComponent,
     AccountComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

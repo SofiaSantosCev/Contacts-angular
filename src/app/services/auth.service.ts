@@ -2,7 +2,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from "@angular/fire/auth";
 import * as firebase from 'firebase';
-
 import { auth } from 'firebase/app';
 
 @Injectable({
@@ -15,7 +14,7 @@ export class AuthService {
 	constructor (
 		public afAuth: AngularFireAuth, 
 		public router: Router, 
-		public ngZone: NgZone
+		public ngZone: NgZone,
 	) {
 		this.afAuth.authState.subscribe(user => {
 			if (user) {
@@ -26,11 +25,16 @@ export class AuthService {
 			  localStorage.setItem('user', null);
 			  JSON.parse(localStorage.getItem('user'));
 			}
-		  })
+		})
 	}
 
+	
 	getUser() {
-		return this.userData['uid'];
+		return this.userData;
+	}
+
+	getUserEmail() {
+		return auth().currentUser.email;
 	}
 
 	signInWithGoogle() {
@@ -91,7 +95,15 @@ export class AuthService {
 
 	signOut() {
 		this.afAuth.signOut();
-		localStorage.removeItem('user');
+		localStorage.removeItem('usercontactid');
 		this.router.navigate(['/signIn']);
+	}
+
+	deleteAccount() {
+		return firebase.auth().currentUser.delete().then(res => {
+			console.log(res);
+		  }).catch(err => {
+			console.log('error when trying to delete account: ' + err);
+		  });
 	}
 }

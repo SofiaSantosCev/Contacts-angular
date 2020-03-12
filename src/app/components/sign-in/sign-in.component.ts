@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,12 +14,12 @@ export class SignInComponent implements OnInit {
   password: string;
   error: string;
 
-  constructor(public authService: AuthService, public router: Router) { }
+  constructor(public authService: AuthService, public router: Router, public db: DatabaseService) { }
 
   ngOnInit(): void {}
 
   signIn() {
-      this.authService.signIn(this.email, this.password);
+      this.db.signIn(this.email, this.password);
   }
 
   signInWithFacebook() {

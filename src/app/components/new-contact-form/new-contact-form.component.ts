@@ -25,7 +25,7 @@ export class NewContactFormComponent implements OnInit {
 	}
 
 	createContact() {
-		this.db.createContact(this.newContactForm.value as Contact);
+		this.db.addContact(this.newContactForm.value as Contact);
 	}
 
 }

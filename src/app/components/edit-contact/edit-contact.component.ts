@@ -19,20 +19,10 @@ export class EditContactComponent implements OnInit {
     this.editContactForm = this.formbuilder.group({
       name: '',
       surname: '',
-      email: '',
-      mobile: ''
     });
 
     this.contactId = localStorage.getItem('contactSelectedId');
-    //this.getContact();
     console.log('contactId: ' + this.contactId);
-  }
-
-  getContact() {
-  }
-
-  setValue() {
-
   }
 
   edit() {

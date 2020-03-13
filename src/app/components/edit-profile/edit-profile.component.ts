@@ -24,7 +24,9 @@ export class EditProfileComponent implements OnInit  {
   }
 
   edit() {
-    this.db.updateProfile(this.editProfileForm.value);
+    this.db.updateProfile(this.editProfileForm.value)
+    .then(() => console.log('profile updated'))
+		.catch(err => console.log(err));
   }
 
 }

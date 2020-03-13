@@ -4,10 +4,10 @@
         <div class="list-group" *ngFor="let item of chats">
             <a (click)="selectChat(item.id)" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                    <p class="mb-1">{{item.contactid}}</p>
-                    <small>3 days ago</small>
+                    <p class="mb-1">{{item.chatName}}</p>
+                    <small>{{messages[0].timestamp}}</small>
                 </div>
-                <p class="mb-1">message</p>
+                <p class="mb-1">{{messages[0].message}}</p>
             </a>
         </div>
         
@@ -26,9 +26,9 @@
                     </div>
                 </div>
             </nav>
-            <div class="container" style="height: 90%;">
-                <ul style="list-style: none;" *ngFor="let item of messages">
-                    <li>
+            <div class="container" id="list-messages">
+                <ul >
+                    <li *ngFor="let item of messages" [ngClass]="{'sent' : item.uid == user , 'replies' : item.uid != user}">
                         <div id="messagebox" >
                             <p>{{item.message}}</p>
                             <p id="date">{{item.timestamp}}</p>
@@ -40,7 +40,7 @@
         <div class="row-2" id="formdiv">
             <form class="form-inline">
                 <div class="input-group" >
-                    <input type="text" class="form-control" placeholder="Type your message here..."  aria-describedby="basic-addon2" [(ngModel)]="messageInput" name=messageInput>
+                    <input type="text" class="form-control" placeholder="Type your message here..."  aria-describedby="basic-addon" [(ngModel)]="messageInput" name=messageInput>
                     <div class="input-group-append">
                       <button class="btn btn-primary" type="button" (click)="sendMessage()">Send</button>
                     </div>

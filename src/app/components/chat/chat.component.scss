@@ -25,6 +25,30 @@
         height: 100%;
         background-color: grey;
 
+        #list-messages {
+            height: 90%;
+            position: relative;
+
+            ul {
+                position: absolute;
+                bottom: 0;
+                list-style: none;
+                background-color: red;
+
+                li {
+                    margin-top: 10px;
+                }
+            }
+
+            .sent {
+                margin-right: 0;
+            }
+
+            .replies {
+                left: 0;
+            }
+        }
+
         #messagebox {
             min-width: 100px;
             max-width: 300px;

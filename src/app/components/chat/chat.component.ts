@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit {
 	messageInput: string;
 	selectedChatID: string;
 	selectedContactName: string;
+	user = "admin@mail.com"
 
 	constructor (
 		public authService: AuthService,
@@ -28,19 +29,29 @@ export class ChatComponent implements OnInit {
 	}
 	
 	async getUsersChats() {
-		this.db.getUsersChats().then(doc => {
+		this.db.getCurrentUserChats().then(doc => {
 			if(doc.empty) {
 				console.log('doc empty')
 			} else {
 				doc.forEach(e => {
 					this.chats.push({
 						id: e.id,
+						chatName: e.data().members[0], 
 						...e.data()
 					});
 				})
 			}
 			
 		}).catch(err => console.log(err));
+	}
+
+	getContactNameByEmail(email: string) {
+		this.db.getContactName(email)
+		.then(doc => {
+			return doc.data().name
+		})
+		.catch(err => console.log(err));
+		
 	}
 	
 	getContactName(email: string) {
@@ -49,40 +60,17 @@ export class ChatComponent implements OnInit {
 		})
 	}
 
-	sendMessage() {
-		if(this.messageInput != ''){
-			this.db.sendMessage(this.selectedChatID, this.messageInput)
-			.then(() => console.log('message sent'))
-			.catch(err => console.log(err));
-		}
-		this.messageInput = '';
-	}
-
-	getMessages(chatid: string) {
-		this.db.getMessages(chatid).onSnapshot((onSnapshot) => {
-			this.messages = onSnapshot.docs.map(e => {
-				return {
-					id: e.id,
-					timestamp: this.convertDate(e.data().timestamp),
-					uid: e.data().uid,
-					message: e.data().message
-				}
-			})
-		});
-	}
-
 	// transforms the date.now string into the chosen format
 	convertDate(date: string) {
 		return this.datepipe.transform(date, 'h:mm');
 	}
 
-	// WORKS
 	selectChat(chatID: string) {
 		this.selectedChatID = chatID;
 		this.getMessages(chatID);
 		
 		// set chat name to the contact's name the user is talking to
-		this.db.getChatById(chatID).then((doc) => {
+		this.db.getChat(chatID).then((doc) => {
 			if(doc.exists) {
 				let members = doc.data().members;
 				for (let i = 0; i < members.length; i++) {
@@ -98,10 +86,32 @@ export class ChatComponent implements OnInit {
 	}
 
 	deleteChat() {
-		firebase.firestore().collection('chats').doc(this.selectedChatID).delete();
+		this.db.deleteChat(this.selectedChatID);
+	}
+
+	getMessages(chatid: string) {
+		this.db.getMessages(chatid).onSnapshot((onSnapshot) => {
+			this.messages = onSnapshot.docs.map(e => {
+				return {
+					id: e.id,
+					timestamp: this.convertDate(e.data().timestamp),
+					uid: e.data().uid,
+					message: e.data().message
+				}
+			})
+		});
+	}
+
+	sendMessage() {
+		if(this.messageInput != ''){
+			this.db.sendMessage(this.selectedChatID, this.messageInput)
+			.then(() => console.log('message sent'))
+			.catch(err => console.log(err));
+		}
+		this.messageInput = '';
 	}
 
 	deleteMessages() {
-		firebase.firestore().collection('chats').doc(this.selectedChatID).collection('messages').doc().delete();
+		this.db.deleteMessages(this.selectedChatID);
 	}
 }

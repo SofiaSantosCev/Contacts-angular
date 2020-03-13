@@ -52,9 +52,12 @@ export class ContactsListComponent implements OnInit {
 	}
 
 	newChat(id: string) {
-		var members = [];
+		let members = [];
 		members.push(id, firebase.auth().currentUser.email);
-		this.db.createOneToOneChat(members);
+		
+		this.db.createOneToOneChat(members)
+		.then(() => console.log('chat created with: ' + id))
+		.catch(err => console.log(err));
 	}
 
 

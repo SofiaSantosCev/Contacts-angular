@@ -10,13 +10,13 @@ import * as firebase from 'firebase';
 })
 export class HomeComponent implements OnInit {
 
-	constructor(public authService: AuthService, public db: DatabaseService) {
-		
-	}
+	constructor(
+		public authService: AuthService, 
+		public db: DatabaseService
+	) {}
 	
 	ngOnInit(): void {
 		this.checkIfUsercontactExists();
-
 	}
 
 	signOut() {
@@ -29,8 +29,9 @@ export class HomeComponent implements OnInit {
 			if(doc.exists) {
 				localStorage.setItem('usercontactid', doc.id);
 			} else {
-				console.log('doc exists');
-				this.db.createUserContact(firebase.auth().currentUser);
+				this.db.createUserContact(firebase.auth().currentUser)
+				.then(() => console.log('contact created'))
+				.catch(err => console.log(err));
 			}
 		})
 	}

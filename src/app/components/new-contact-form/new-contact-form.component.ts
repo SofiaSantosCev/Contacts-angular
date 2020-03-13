@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { Contact } from 'src/app/models/contact.model';
 import { FormBuilder } from '@angular/forms';
+import * as firebase from 'firebase';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-new-contact-form',
@@ -13,7 +15,10 @@ export class NewContactFormComponent implements OnInit {
 	
 	newContactForm: any;
 
-	constructor(public db: DatabaseService, private formbuilder: FormBuilder) {}
+	constructor(
+		public db: DatabaseService,
+		private formbuilder: FormBuilder,
+		public router: Router) {}
 	
 	ngOnInit() {
 		this.newContactForm = this.formbuilder.group({
@@ -25,7 +30,7 @@ export class NewContactFormComponent implements OnInit {
 	}
 
 	createContact() {
-		this.db.addContact(this.newContactForm.value as Contact);
+		this.db.addContact(this.newContactForm.value as Contact)
 	}
 
 }

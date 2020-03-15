@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-edit-contact',
@@ -10,26 +11,44 @@ import { Router } from '@angular/router';
 })
 export class EditContactComponent implements OnInit {
 
-  editContactForm;
+  editNameForm;
+  editSurnameForm;
   contactId: string;
   contact: any;
+  currentUserEmail = firebase.auth().currentUser.email;
 
   constructor(private db: DatabaseService, private formbuilder: FormBuilder, public router: Router) { }
 
   ngOnInit(): void {
-    this.editContactForm = this.formbuilder.group({
+    this.editNameForm = this.formbuilder.group({
       name: '',
+    });
+    this.editSurnameForm = this.formbuilder.group({
       surname: '',
     });
-
+    
     this.contactId = localStorage.getItem('contactSelectedId');
     console.log('contactId: ' + this.contactId);
   }
 
-  edit() {
-    this.db.updateContact(this.editContactForm.value, this.contactId)
-    .then(() => this.router.navigate(['/contacts']))
+  editName() {
+    this.db.updateContact(this.editNameForm.value, this.contactId)
+    .then(() => console.log('Name updated'))
 		.catch((error) => console.log(error));
-	}
+  }
+
+  editSurname() {
+    this.db.updateContact(this.editSurnameForm.value, this.contactId)
+    .then(() => console.log('Surname updated'))
+		.catch((error) => console.log(error));
+  }
+  
+  getContactInfo() {
+    firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).collection('uid').doc(this.contactId).update({
+
+    })
+  }
+  
+
 
 }

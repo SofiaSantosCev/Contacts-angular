@@ -9,6 +9,7 @@ import { NewContactFormComponent } from './components/new-contact-form/new-conta
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
 import { AccountComponent } from './components/account/account.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { NewChatGroupComponent } from './components/new-chat-group/new-chat-group.component';
 
 const routes: Routes = [
   { path: '', component: SignInComponent, pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'edit-contact', component: EditContactComponent },
   { path: 'account', component: AccountComponent },
   { path: 'edit-profile', component: EditProfileComponent },
+  { path: 'chat-group', component: NewChatGroupComponent }
   
 ];
 

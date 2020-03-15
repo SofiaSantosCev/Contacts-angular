@@ -1,0 +1,30 @@
+<body>
+	<div class="container" id="box">
+		<nav class="navbar navbar-expand-lg">
+			<button routerLink="/contacts" class="btn"><img src="../../../assets/back.svg" alt="back"></button>
+		</nav>
+		<div class="container" id="content">
+            <h5>Select the contacts you want to add to the group</h5>
+            <div>
+				<form action="">
+                    <div class="form-check mb-2"  *ngFor="let item of contacts">
+                        <input class="form-check-input" type="checkbox" (change)="check(item.email)" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                            <div>
+                                {{item.name}}
+                                {{item.email}}
+                            </div>
+                        </label>
+                      </div>
+                      <div class="form-group mt-5">
+                            <label for="group name">Group name</label>
+                            <input type="text" [(ngModel)]="groupname" name="name" id="groupname" class="form-control">
+                      </div>
+                      <button type="submit" class="btn btn-outline-primary" (click)="createGroupChat()">create group</button>
+                </form>
+			</div>
+		</div>
+	</div>
+</body>
+
+

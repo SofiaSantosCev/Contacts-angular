@@ -4,20 +4,26 @@
 			<button routerLink="/account" class="btn"><img src="../../../assets/back.svg" alt="back"></button>
 		</nav>
         <div class="container" id="content">
-            <form [formGroup]="editProfileForm" (ngSubmit)="edit()">
-                <div class="form-group">
-                    <label for="photo">Photo</label>
+            <form [formGroup]="editPhotoForm" (ngSubmit)="editPhoto()" class="form-inline mb-2">
+                <div class="form-group mx-sm-3">
+                    <label for="photo" class="mr-5">Photo</label>
                     <input type="text" formControlName="photo" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label for="name">Name</label>
+                <button type="submit" class="btn btn-primary">edit</button>
+            </form>
+            <form [formGroup]="editNameForm" (ngSubmit)="editName()" class="form-inline mb-2">
+                <div class="form-group mx-sm-3">
+                    <label for="name" class="mr-5">Name</label>
                     <input type="text" formControlName="name" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label for="surname">Surname</label>
+                <button type="submit" class="btn btn-primary">edit</button>
+            </form>
+            <form [formGroup]="editSurnameForm" (ngSubmit)="editSurname()" class="form-inline mb-2">
+                <div class="form-group mx-sm-3">
+                    <label for="surname" class="mr-4">Surname</label>
                     <input type="text" formControlName="surname" class="form-control" >
                 </div>
-                <button type="submit" class="btn btn-primary">Edit profile</button>
+                <button type="submit" class="btn btn-primary">edit</button>
             </form>
         </div>
     </div>

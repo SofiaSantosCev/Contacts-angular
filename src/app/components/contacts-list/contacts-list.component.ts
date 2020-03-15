@@ -49,6 +49,18 @@ export class ContactsListComponent implements OnInit {
 		this.db.deleteContact(id)
 		.then(() => console.log('contact deleted'))
 		.catch(err => console.log(err));
+
+		this.db.getContactChats(id)
+		.then(doc => {
+			if (doc.empty) {
+				console.log('no chats to delete');
+			} else {
+				doc.forEach(e => {
+					e.ref.delete();
+					e.ref.collection('messages').get().then(doc => doc.empty ? doc.forEach(e=>e.ref.delete()): console.log('doc empty'))
+				})
+			}
+		})
 	}
 
 	newChat(id: string) {

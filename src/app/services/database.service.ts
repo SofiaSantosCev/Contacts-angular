@@ -66,9 +66,9 @@ export class DatabaseService {
 	// CREATE the contact found by email 
 	addContact(contact: Contact) {
 		var contactData = {
+			email: contact.email,
 			name: contact.name,
 			surname: contact.surname,
-			email: contact.email,
 		}
 
 		firebase.firestore().collection('contacts').doc(contact.email).get().then(doc => {
@@ -81,7 +81,7 @@ export class DatabaseService {
 			} else {
 				console.log('contact doesnt exist');
 			}
-		}).catch(err => console.log(err));	;
+		}).catch(err => console.log(err));	
 	}
 
 	getContactName(contactid: string) {
@@ -94,15 +94,11 @@ export class DatabaseService {
 
 	// UPDATE some or all the fields of a contact
 	updateContact(newcontactinfo: Contact, id: string) {
-		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).collection('uid').doc(id).set({
-			name: newcontactinfo.name,
-			surname: newcontactinfo.surname,
-		});
+		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).collection('uid').doc(id).update(newcontactinfo);
 	}
 
 	// DELETE the contact from database
 	deleteContact(id: string) {
-		console.log(firebase.auth().currentUser.uid);
 		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).collection('uid').doc(id).delete();
 		 // delete chats with that contact.
 		
@@ -112,6 +108,10 @@ export class DatabaseService {
 
 	getCurrentUserChats() {
 		return firebase.firestore().collection('chats/').where('members', 'array-contains',this.authService.userData.email).where('archived','==', false).get();
+	}
+
+	getContactChats(contact: string) {
+		return firebase.firestore().collection('chats').where('members', 'array-contains', contact).get();
 	}
 
 	// GET 
@@ -124,14 +124,17 @@ export class DatabaseService {
 		return firebase.firestore().collection('chats').doc(contacts[0]+contacts[1])
 		.set({
 			archived: false,
-			members: contacts
+			members: contacts,
+			type: 'oneToOne'
 		});	
 	}
 
 	createGroupChat(contacts: string[], groupname: string) {
-		firebase.firestore().collection('chats').doc(groupname).set({
+		return firebase.firestore().collection('chats').doc().set({
 			archived: false,
-			members: contacts
+			members: contacts,
+			name: groupname,
+			type: 'group'
 		});
 	}
 

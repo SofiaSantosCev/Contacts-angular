@@ -1,10 +1,11 @@
+@import '../../colors.scss';
 #main {
-    height: 60vh;
+    height: 70vh;
     padding: 0;
     margin: 0;
 
     nav {
-        background: rgb(223, 221, 221);
+        background: $grey;
         padding: 10px 20px;
         position: relative;
         height: 50px;
@@ -19,53 +20,61 @@
         padding: 0;
     }
 
-    #chat-messages {
-        position: relative;
+    #nochatselected {
+        background-color: lightslategray;
+    }
+
+    #chat-messages, #nochatselected {
         padding: 0;
         height: 100%;
-        background-color: grey;
+        background-color: #fff;
 
         #list-messages {
-            height: 90%;
+            min-height: 55vh;
             position: relative;
 
             ul {
                 position: absolute;
                 bottom: 0;
+                left: 0;
+                right: 0;
                 list-style: none;
-                background-color: red;
 
                 li {
                     margin-top: 10px;
+                    
+                    .sent {
+                        background-color: $sent;
+                        transform: translate(500px);
+                    }
+        
+                    .replies {
+                        background-color: $grey;
+                    } 
+                    
+                    #messagebox {
+                        width: 150px;
+                        max-width: 300px;
+                        min-height: 25px;
+                        border-radius: 8px;
+                        padding: 10px;
+                        position: relative;
+            
+                        #date {
+                            position: absolute;
+                            top: 5px;
+                            right: 5px;
+                            font-size: 10px;
+                            color: #aaa;
+                        }
+                    }
                 }
             }
 
-            .sent {
-                margin-right: 0;
-            }
-
-            .replies {
-                left: 0;
-            }
+            
         }
 
-        #messagebox {
-            min-width: 100px;
-            max-width: 300px;
-            min-height: 25px;
-            border-radius: 8px;
-            background-color: #eee;
-            padding: 10px;
-            position: relative;
-
-            #date {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                font-size: 10px;
-                color: #aaa;
-            }
-        }
+        
 
         #formdiv {
             position: absolute;
@@ -73,10 +82,9 @@
             right: 0;
             left: 0;
             padding: 10px;
-            background-color: #eee;
             overflow: hidden;
             input {
-                width: 100%;
+                min-width: 600px;
             }
         }
     }

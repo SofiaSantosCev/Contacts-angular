@@ -4,19 +4,16 @@
         <div class="list-group" *ngFor="let item of chats">
             <a (click)="selectChat(item.id)" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                    <p class="mb-1">{{item.chatName}}</p>
-                    <small>{{messages[0].timestamp}}</small>
+                    <p class="mb-1">{{item.name}}</p>
                 </div>
-                <p class="mb-1">{{messages[0].message}}</p>
             </a>
         </div>
-        
     </div>
-    <div class="col-9" id="chat-messages">
+    <div class="col-9" id="chat-messages" *ngIf="selectedChatName != null">
         <div class="row-10">
             <nav class="nav">
-                <h5>{{selectedContactName}}</h5>
-                <div class="btn-group" id="menu-btn">
+                <h5>{{selectedChatName}}</h5>
+                <div class="btn-group dropleft" id="menu-btn">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="false"
                     aria-expanded="false">
                     </button>
@@ -26,10 +23,10 @@
                     </div>
                 </div>
             </nav>
-            <div class="container" id="list-messages">
-                <ul >
-                    <li *ngFor="let item of messages" [ngClass]="{'sent' : item.uid == user , 'replies' : item.uid != user}">
-                        <div id="messagebox" >
+            <div id="list-messages">
+                <ul>
+                    <li *ngFor="let item of messages" >
+                        <div id="messagebox" [ngClass]="{'sent' : item.uid == user , 'replies' : item.uid != user}" >
                             <p>{{item.message}}</p>
                             <p id="date">{{item.timestamp}}</p>
                         </div>
@@ -37,7 +34,7 @@
                 </ul>
             </div>
         </div>
-        <div class="row-2" id="formdiv">
+        <div class="row-2" id="formdiv" *ngIf="selectChat != null">
             <form class="form-inline">
                 <div class="input-group" >
                     <input type="text" class="form-control" placeholder="Type your message here..."  aria-describedby="basic-addon" [(ngModel)]="messageInput" name=messageInput>
@@ -47,6 +44,9 @@
                   </div>
             </form>
         </div>
+    </div>
+    <div class="col-9" id="nochatselected" *ngIf="selectedChatName == null">
+
     </div>
 </div>
 

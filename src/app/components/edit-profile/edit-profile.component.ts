@@ -9,22 +9,42 @@ import { DatabaseService } from 'src/app/services/database.service';
 })
 export class EditProfileComponent implements OnInit  {
   
-  editProfileForm: any;
+  editPhotoForm: any;
+  editNameForm: any;
+  editSurnameForm: any;
 
   constructor(public formbuilder: FormBuilder, public db: DatabaseService) {
 
   }
   
   ngOnInit(): void {
-    this.editProfileForm = this.formbuilder.group({
+    this.editPhotoForm = this.formbuilder.group({
       photo: '',
+    });
+
+    this.editNameForm = this.formbuilder.group({
       name: '',
+    });
+
+    this.editSurnameForm = this.formbuilder.group({
       surname: '',
     });
   }
 
-  edit() {
-    this.db.updateProfile(this.editProfileForm.value)
+  editPhoto() {
+    this.db.updateProfile(this.editPhotoForm.value)
+    .then(() => console.log('profile updated'))
+		.catch(err => console.log(err));
+  }
+
+  editName() {
+    this.db.updateProfile(this.editNameForm.value)
+    .then(() => console.log('profile updated'))
+		.catch(err => console.log(err));
+  }
+
+  editSurname() {
+    this.db.updateProfile(this.editSurnameForm.value)
     .then(() => console.log('profile updated'))
 		.catch(err => console.log(err));
   }

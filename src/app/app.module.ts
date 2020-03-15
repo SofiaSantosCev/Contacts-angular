@@ -26,6 +26,7 @@ import { EditContactComponent } from './components/edit-contact/edit-contact.com
 import * as firebase from 'firebase';
 import { AccountComponent } from './components/account/account.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { NewChatGroupComponent } from './components/new-chat-group/new-chat-group.component';
 firebase.initializeApp(environment.firebase);
 
 @NgModule({
@@ -40,6 +41,7 @@ firebase.initializeApp(environment.firebase);
     EditContactComponent,
     AccountComponent,
     EditProfileComponent,
+    NewChatGroupComponent,
   ],
   imports: [
     BrowserModule,

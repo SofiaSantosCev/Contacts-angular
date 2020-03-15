@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import * as firebase from 'firebase';
 import { DatePipe } from '@angular/common';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-chat',
@@ -16,7 +17,8 @@ export class ChatComponent implements OnInit {
 	messageInput: string;
 	selectedChatID: string;
 	selectedContactName: string;
-	user = "admin@mail.com"
+	selectedChatName: string;
+	user = firebase.auth().currentUser.email;
 
 	constructor (
 		public authService: AuthService,
@@ -36,9 +38,20 @@ export class ChatComponent implements OnInit {
 				doc.forEach(e => {
 					this.chats.push({
 						id: e.id,
-						chatName: e.data().members[0], 
+						type: e.data().type, 
+						name: e.data().name,
 						...e.data()
 					});
+
+					
+						for (let i = 0; i < this.chats.length; i++) {
+							const element = this.chats[i];
+							if(element.type == 'oneToOne') {
+								element.name = element.members[0]
+							} else if(element.type == 'group') {
+								element.name = element.name;
+							}
+					}
 				})
 			}
 			
@@ -53,12 +66,6 @@ export class ChatComponent implements OnInit {
 		.catch(err => console.log(err));
 		
 	}
-	
-	getContactName(email: string) {
-		this.db.getContactName(email).then(doc => {
-			this.selectedContactName = doc.data().name;
-		})
-	}
 
 	// transforms the date.now string into the chosen format
 	convertDate(date: string) {
@@ -69,20 +76,19 @@ export class ChatComponent implements OnInit {
 		this.selectedChatID = chatID;
 		this.getMessages(chatID);
 		
-		// set chat name to the contact's name the user is talking to
-		this.db.getChat(chatID).then((doc) => {
+		this.db.getChat(chatID)
+		.then((doc) => {
 			if(doc.exists) {
-				let members = doc.data().members;
-				for (let i = 0; i < members.length; i++) {
-					if (members[i] != firebase.auth().currentUser.email) {
-						this.getContactName(members[i]);
-						
-					}
+				if(doc.data().type == 'group') {
+					this.selectedChatName = doc.data().name
+				} else if(doc.data().type == 'oneToOne') {
+
+					this.selectedChatName = doc.data().members[0];
 				}
 			} else {
 				console.log('chat doesnt exist');
 			}
-		})
+		}).catch(err => console.log(err))
 	}
 
 	deleteChat() {

@@ -40,17 +40,22 @@ export class ChatComponent implements OnInit {
 						id: e.id,
 						type: e.data().type, 
 						name: e.data().name,
+						messages: e.data().messages,
 						...e.data()
 					});
 
-					
-						for (let i = 0; i < this.chats.length; i++) {
-							const element = this.chats[i];
-							if(element.type == 'oneToOne') {
-								element.name = element.members[0]
-							} else if(element.type == 'group') {
-								element.name = element.name;
+					for (let i = 0; i < this.chats.length; i++) {
+						const element = this.chats[i];
+						if(element.type == 'oneToOne') {
+							for (let i = 0; i < element.members.length; i++) {
+								const item = element.members[i];
+								if(item != firebase.auth().currentUser.email) {
+									element.name = item;
+								}
 							}
+						} else if(element.type == 'group') {
+							element.name = element.name;
+						}
 					}
 				})
 			}
@@ -69,7 +74,7 @@ export class ChatComponent implements OnInit {
 
 	// transforms the date.now string into the chosen format
 	convertDate(date: string) {
-		return this.datepipe.transform(date, 'h:mm');
+		return this.datepipe.transform(date, 'h:mm a');
 	}
 
 	selectChat(chatID: string) {
@@ -105,6 +110,10 @@ export class ChatComponent implements OnInit {
 					message: e.data().message
 				}
 			})
+
+			for (let i = 0; i < this.messages.length; i++) {
+				const element = this.messages[i];
+			}
 		});
 	}
 

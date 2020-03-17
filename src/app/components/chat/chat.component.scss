@@ -30,7 +30,6 @@
         background-color: #fff;
 
         #list-messages {
-            min-height: 55vh;
             position: relative;
 
             ul {
@@ -39,7 +38,7 @@
                 left: 0;
                 right: 0;
                 list-style: none;
-
+                
                 li {
                     margin-top: 10px;
                     
@@ -53,7 +52,7 @@
                     } 
                     
                     #messagebox {
-                        width: 150px;
+                        width: 200px;
                         max-width: 300px;
                         min-height: 25px;
                         border-radius: 8px;
@@ -84,7 +83,7 @@
             padding: 10px;
             overflow: hidden;
             input {
-                min-width: 600px;
+                min-width: 750px;
             }
         }
     }

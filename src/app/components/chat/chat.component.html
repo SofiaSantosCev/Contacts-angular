@@ -5,6 +5,7 @@
             <a (click)="selectChat(item.id)" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1">{{item.name}}</p>
+                    <p>{{item.messages}}</p>
                 </div>
             </a>
         </div>
@@ -13,6 +14,7 @@
         <div class="row-10">
             <nav class="nav">
                 <h5>{{selectedChatName}}</h5>
+                
                 <div class="btn-group dropleft" id="menu-btn">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="false"
                     aria-expanded="false">
@@ -23,10 +25,11 @@
                     </div>
                 </div>
             </nav>
-            <div id="list-messages">
+            <div id="list-messages" style="height: 600px; overflow-y: auto;">
                 <ul>
                     <li *ngFor="let item of messages" >
                         <div id="messagebox" [ngClass]="{'sent' : item.uid == user , 'replies' : item.uid != user}" >
+                            <small>{{item.uid}}</small>
                             <p>{{item.message}}</p>
                             <p id="date">{{item.timestamp}}</p>
                         </div>
@@ -39,7 +42,7 @@
                 <div class="input-group" >
                     <input type="text" class="form-control" placeholder="Type your message here..."  aria-describedby="basic-addon" [(ngModel)]="messageInput" name=messageInput>
                     <div class="input-group-append">
-                      <button class="btn btn-primary" type="button" (click)="sendMessage()">Send</button>
+                      <button class="btn btn-primary" type="submit" (click)="sendMessage()">Send</button>
                     </div>
                   </div>
             </form>

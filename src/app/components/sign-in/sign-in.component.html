@@ -14,7 +14,7 @@
                         <label for="password">Password</label>
                         <input type="password" [(ngModel)]="password" name="password" class="form-control" required/>
                     </div>
-                    <button type="submit" (click)="signIn()" class="btn btn-warning">Sign In</button>
+                    <button type="submit" (click)="signIn()" class="btn btn-outline-primary">Sign In</button>
                     
                     <p>You don't have an account? <a routerLink="/signUp">Sign Up</a></p>
                     <p style="color:red">{{error}}</p>

@@ -48,13 +48,12 @@ export class DatabaseService {
 
 	signIn(email: string, password: string) {
 		this.authService.signIn(email, password);
-		// get user contact id
 		localStorage.setItem('usercontactid', email);
 
 	}
 
 	getUserContact() {
-		return firebase.firestore().collection('contacts').doc(this.authService.userData.email).get();
+		return firebase.firestore().collection('contacts').doc(firebase.auth().currentUser.email).get();
 	}
 
 	// CONTACTS

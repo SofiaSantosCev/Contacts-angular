@@ -21,12 +21,4 @@ export class SignInComponent implements OnInit {
   signIn() {
       this.db.signIn(this.email, this.password);
   }
-
-  signInWithFacebook() {
-    this.authService.signInWithFacebook()
-    .then((res) => { 
-        this.router.navigate(['/home'])
-      })
-    .catch((err) => console.log(err));
-  }
 } 

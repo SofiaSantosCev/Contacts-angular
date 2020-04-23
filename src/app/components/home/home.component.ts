@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import * as firebase from 'firebase';
+import { ChatComponent } from '../chat/chat.component';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,8 @@ import * as firebase from 'firebase';
 })
 export class HomeComponent implements OnInit {
 
+	public chat: ChatComponent;
+
 	constructor(
 		public authService: AuthService, 
 		public db: DatabaseService
@@ -17,6 +20,7 @@ export class HomeComponent implements OnInit {
 	
 	ngOnInit(): void {
 		this.checkIfUsercontactExists();
+		
 	}
 
 	signOut() {

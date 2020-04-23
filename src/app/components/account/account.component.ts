@@ -9,10 +9,9 @@ import { DatabaseService } from 'src/app/services/database.service';
   styleUrls: ['./account.component.scss', '../../main.scss']
 })
 export class AccountComponent implements OnInit {
-
   usercontact: any;
   user = firebase.auth().currentUser;
-
+  
   constructor(public authService: AuthService, public db: DatabaseService) {}
   
   ngOnInit(): void {
